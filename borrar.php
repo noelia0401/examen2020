@@ -1,11 +1,28 @@
 <?php
-
+session_start();
 include 'head.php';
-                                             
+if (isset($_REQUEST['borrar']))
+{
+    $numero=$_REQUEST['num_incidencia'];
+    $antes=count($_SESSION['incidencias']);
+
+    foreach ($_SESSION['incidencias'] as $clave => $valor){
+    if (in_array($numero, $_SESSION['incidencias'][$clave]))
+    {
+        unset($_SESSION['incidencias'][$clave]);
+        echo "borrado<br>";
+    }
+    }
+
+    if ((count($_SESSION['incidencias']))==$antes){
+        echo "Numero incorrecto, no se ha borrado na<br>";
+    }
+    print_r($_SESSION['incidencias']);
+}                                             
  print' 
             <strong>INTRODUCE EL IDENTIFICADOR DE LA INCIDENCIA A BORRAR<BR><BR></strong>
                                      
-        <div   class="postcontent"><form action="" method="post">
+        <div   class="postcontent"><form action="borrar.php" method="post">
             <table align="center" class="content-layout">
               
               

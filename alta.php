@@ -1,10 +1,31 @@
 <?php
 include 'head.php';
-                                             
+session_start();
+if (isset($_REQUEST['enviar']))
+{
+      $numero=count($_SESSION['incidencias']) + 1;
+      $tipo=$_REQUEST['tipo'];
+      $hoy = date("d-m-Y H:i:s");
+      $lugar=$_REQUEST['lugar'];
+      $ip_dir= $_SERVER['REMOTE_ADDR'];
+      $descripcion=$_REQUEST['descripcion'];
+      
+      if (isset($_REQUEST['urgente'])){
+            $urgente="si";
+      }else {
+            $urgente="no";
+      }
+
+      $_SESSION['incidencias'][]=array($numero, $urgente, $tipo, $hoy, $lugar, $ip_dir, $descripcion);
+      if (count($_SESSION['incidencias'])==$numero){
+            echo "Se ha añadido la incidencia";
+      }
+      print_r($_SESSION['incidencias']);
+}                            
  print' 
         <h2 class="postheader">FORMULARIO ALTA INCIDENCIA</h2>
                                      
-        <div   class="postcontent"><form action="" method="post">
+        <div   class="postcontent"><form action="alta.php" method="post">
             <table align="center" class="content-layout">
               <tr>
               <td align="right"><strong>Urgente? :</strong></td>
