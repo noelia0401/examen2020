@@ -20,7 +20,9 @@ if (isset($_REQUEST['enviar']))
       if (count($_SESSION['incidencias'])==$numero){
             echo "Se ha añadido la incidencia";
       }
+      echo "<pre>";
       print_r($_SESSION['incidencias']);
+      echo "</pre>";
 }                            
  print' 
         <h2 class="postheader">FORMULARIO ALTA INCIDENCIA</h2>

@@ -3,16 +3,18 @@ session_start();
 include 'head.php';
 if (isset($_REQUEST['borrar']))
 {
-    $numero=$_REQUEST['num_incidencia'];
+    $numero=$_REQUEST['num_incidencia']-1;
     $antes=count($_SESSION['incidencias']);
+    unset($_SESSION['incidencias'][$numero]);
 
-    foreach ($_SESSION['incidencias'] as $clave => $valor){
+    /*foreach ($_SESSION['incidencias'] as $clave => $valor){
+   
     if (in_array($numero, $_SESSION['incidencias'][$clave]))
     {
         unset($_SESSION['incidencias'][$clave]);
         echo "borrado<br>";
     }
-    }
+    }*/
 
     if ((count($_SESSION['incidencias']))==$antes){
         echo "Numero incorrecto, no se ha borrado na<br>";
