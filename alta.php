@@ -3,6 +3,14 @@ include 'head.php';
 session_start();
 if (isset($_REQUEST['enviar']))
 {
+      
+
+      include 'clases/Conexion.php';
+      try {
+          $obj_conexion = new Conexion();  //creo un objeto de tipo conexion
+          $con = $obj_conexion -> conectar();  
+      
+          // Datos Formulario: 
       $numero=count($_SESSION['incidencias']) + 1;
       $tipo=$_REQUEST['tipo'];
       $hoy = date("d-m-Y H:i:s");
@@ -16,13 +24,29 @@ if (isset($_REQUEST['enviar']))
             $urgente="no";
       }
 
-      $_SESSION['incidencias'][]=array($numero, $urgente, $tipo, $hoy, $lugar, $ip_dir, $descripcion);
+          $sql="INSERT INTO incidencia(urgente, tipo, hoy, lugar, ip_dir, descripcion) VALUES(?,?,?,?,?,?)";
+          $stmt = $con->prepare($sql); //preparar sentencia
+          $stmt->execute(array($urgente, $tipo, $hoy, $lugar, $ip_dir, $descripcion)); //pasar parámetros
+          $filas_afectadas=$stmt->rowCount(); 
+          if ($filas_afectadas == 1)
+              echo '<h1>Inserción correcta</h1>';
+      
+      
+       
+      }
+      catch (PDOException $e) {
+          echo 'Error conectando con la base de datos: ' . $e->getMessage();
+      }
+
+
+
+      /*$_SESSION['incidencias'][]=array($numero, $urgente, $tipo, $hoy, $lugar, $ip_dir, $descripcion);
       if (count($_SESSION['incidencias'])==$numero){
             echo "Se ha añadido la incidencia";
       }
       echo "<pre>";
       print_r($_SESSION['incidencias']);
-      echo "</pre>";
+      echo "</pre>";*/
 }                            
  print' 
         <h2 class="postheader">FORMULARIO ALTA INCIDENCIA</h2>
